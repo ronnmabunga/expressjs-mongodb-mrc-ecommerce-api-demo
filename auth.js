@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const JWT_SECRET_KEY = process.env.DEMO3_JWT_SECRET_KEY;
 
 module.exports.createAccessToken = (user) => {
     try {
@@ -8,7 +9,7 @@ module.exports.createAccessToken = (user) => {
             email: user.email,
             isAdmin: user.isAdmin,
         };
-        return jwt.sign(data, process.env.JWT_SECRET_KEY, {});
+        return jwt.sign(data, JWT_SECRET_KEY, {});
     } catch (error) {
         console.log(`[createAccessToken][500]|| Passed to Outer Error Handler ||[createAccessToken]`);
         errorHandler(error, req, res);
@@ -25,7 +26,7 @@ module.exports.verify = (req, res, next) => {
         } else {
             token = token.slice(7, token.length);
             console.log(token);
-            jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decodedToken) {
+            jwt.verify(token, JWT_SECRET_KEY, function (err, decodedToken) {
                 if (err) {
                     console.log(`[verify][200]|| Token invalid, authentication failed | token:${JSON.stringify(token)} | err:${JSON.stringify(err)} ||[verify]`);
                     return res.status(200).send({

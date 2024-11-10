@@ -8,6 +8,8 @@ const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/order");
 
 require("dotenv").config();
+const MONGO_STRING = process.env.DEMO3_MONGO_STRING;
+const PORT = process.env.DEMO3_PORT;
 
 const app = express();
 app.use(express.json());
@@ -19,7 +21,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-mongoose.connect(process.env.MONGO_STRING);
+mongoose.connect(MONGO_STRING);
 mongoose.connection.once("open", () => console.log("Now connected to MongoDB Atlas."));
 
 app.use("/b5/users", userRoutes);
@@ -28,8 +30,8 @@ app.use("/b5/cart", cartRoutes);
 app.use("/b5/orders", orderRoutes);
 
 if (require.main === module) {
-    app.listen(process.env.PORT || 4005, () => {
-        console.log(`API is now online on port ${process.env.PORT || 4005}`);
+    app.listen(PORT || 4005, () => {
+        console.log(`API is now online on port ${PORT || 4005}`);
     });
 }
-module.exports = { app, mongoose };
+module.exports = app;

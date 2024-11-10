@@ -1,7 +1,11 @@
 const bcrypt = require("bcrypt");
 const { isValidObjectId } = require("mongoose");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const dotenv = require("dotenv");
+require("dotenv").config();
+const AWS_ACCESS_KEY_ID = process.env.DEMO3_AWS_ACCESS_KEY_ID;
+const AWS_SECRET_ACCESS_KEY = process.env.DEMO3_AWS_SECRET_ACCESS_KEY;
+const AWS_REGION = process.env.DEMO3_AWS_REGION;
+const AWS_BUCKET_NAME = process.env.DEMO3_AWS_BUCKET_NAME;
 const User = require("../models/User");
 const { errorHandler, createAccessToken } = require("../auth");
 
@@ -238,23 +242,22 @@ module.exports.uploadUserImage = async (req, res) => {
             return res.status(400).json({ error: "No file uploaded" });
         }
         // Input processing: Uploading to S3
-        dotenv.config();
         const s3Client = new S3Client({
-            region: process.env.AWS_REGION,
+            region: AWS_REGION,
             credentials: {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                accessKeyId: AWS_ACCESS_KEY_ID,
+                secretAccessKey: AWS_SECRET_ACCESS_KEY,
             },
         });
         const uploadParams = {
-            Bucket: process.env.AWS_BUCKET_NAME,
+            Bucket: AWS_BUCKET_NAME,
             Key: `${userId}_${Date.now()}.${req.file.originalname.split(".").pop()}`,
             Body: req.file.buffer,
             ContentType: req.file.mimetype,
         };
         const command = new PutObjectCommand(uploadParams);
         const data = await s3Client.send(command);
-        let imageLink = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadParams.Key}`;
+        let imageLink = `https://${AWS_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${uploadParams.Key}`;
         existingUser.imageLink = imageLink;
         return existingUser
             .save()

@@ -3,12 +3,13 @@
     "version": "1.0.1",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node index.js",
+        "dev": "nodemon index.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "description": "",
+    "description": "expressjs-mongodb-mrc-ecommerce-api-demo",
     "dependencies": {
         "@aws-sdk/client-s3": "^3.654.0",
         "bcrypt": "^5.1.1",
@@ -17,6 +18,8 @@
         "express": "^4.19.2",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.5.3",
-        "multer": "^1.4.5-lts.1"
-    }
+        "multer": "^1.4.5-lts.1",
+        "ronnmabunga-demo-apis": "file:.."
+    },
+    "devDependencies": {}
 }
