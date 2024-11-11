@@ -22,7 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 mongoose.connect(MONGO_STRING);
-mongoose.connection.once("open", () => console.log("Now connected to MongoDB Atlas."));
+mongoose.connection.once("open", () => console.log("E-commerce API: Connected to MongoDB Atlas."));
 
 app.use("/b5/users", userRoutes);
 app.use("/b5/products", productRoutes);
@@ -30,8 +30,8 @@ app.use("/b5/cart", cartRoutes);
 app.use("/b5/orders", orderRoutes);
 
 if (require.main === module) {
-    app.listen(PORT || 4005, () => {
-        console.log(`API is now online on port ${PORT || 4005}`);
+    app.listen(PORT || 4003, () => {
+        console.log(`E-commerce API: Now online on port ${PORT || 4003}`);
     });
 }
 module.exports = app;
