@@ -20,6 +20,5 @@
         "mongoose": "^8.5.3",
         "multer": "^1.4.5-lts.1",
         "ronnmabunga-demo-apis": "file:.."
-    },
-    "devDependencies": {}
+    }
 }
